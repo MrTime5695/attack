@@ -290,6 +290,7 @@ SDL_bool CheckCollision(SDL_Rect A, SDL_Rect B)
     return SDL_TRUE;
 }
 
+//use callback instead.
 int Timeout(){
 	int num = (rand()%40);
 	num -=1;
