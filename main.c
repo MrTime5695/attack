@@ -40,7 +40,7 @@ int main(int argc, char** argv){
     SetRect(&bg,0,0,320,240);
 	SetRect(&enemy,50,10,32,32);
     SetRect(&bullet,0,230,4,8);
-    SetRect(&clone1,0,0,4,8);
+    clone1.x = (enemy.x + 16); clone1.y = (enemy.y + 16);
     
     CloneRect(&enemy, &clone);
     
@@ -128,7 +128,24 @@ int main(int argc, char** argv){
 		if(CheckCollision(enemy, bullet)){
 			tv = SDL_LoadBMP("tvc.bmp");
 		}
-		HandleEnemy(&enemy, tv, screen, &clone1);
+		
+		if(!CheckCollision(enemy, bullet)){
+			MoveEnemy(&enemy, tv, screen, &clone1);
+		
+			if(Attack(&clone1, screen)){
+				clone1.x = (enemy.x + 16);
+				clone1.y = (enemy.y + 16);
+			}
+		}
+		else
+		{
+			tv = SDL_LoadBMP("tvc.bmp");
+			SDL_BlitSurface(tv, NULL, screen, &enemy);
+			SDL_UpdateRect(screen, 0, 0, 0, 0);
+			SDL_Delay(1000);
+			SDL_Quit();
+			return 0;
+		}
 		
 		//draw the player
 		SDL_BlitSurface(player, NULL, screen, &rect);

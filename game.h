@@ -79,43 +79,34 @@ SDL_Rect clone8;
 SDL_Rect clone9;
 SDL_Rect clone10;
 
-int Attack(SDL_Rect* A, SDL_Rect* B, SDL_Surface* scr){
+int Attack(SDL_Rect* B, SDL_Surface* scr){
 	B->w = 4;
 	B->h = 8;
 	
-	B->x = (A->x + 16);
-	B->y = (A->y + 16);
 	SDL_FillRect(scr, B, SDL_MapRGB(scr->format, 20, 210, 200));
 
 	if(B->y < 232){
 		B->y += 2;
 		SDL_FillRect(scr, B, SDL_MapRGB(scr->format, 20, 210, 200));
-		return 1;
+		return 0;
 	}
-	
-	return 0;
-	
-	
+	return 1;
 }
 
 //Rect A is enemy. B is bullet. sprite is sprite.
-int HandleEnemy(SDL_Rect* A,SDL_Surface* sprite, SDL_Surface* scr, SDL_Rect* proj){
-	
-	int atk = 0;
-	
+int MoveEnemy(SDL_Rect* A,SDL_Surface* sprite, SDL_Surface* scr, SDL_Rect* proj){
 	if(Timeout()){
 		int xdir = (rand()%50);
 		int pol = (rand()%3);
 		pol -=1;
-		printf("%d\n",pol);
+		
 		if(A->x < (320 - A->w)){
 			A->x += (xdir * pol);
 		}
-		atk = 1;
+		SDL_BlitSurface(sprite, NULL, scr, A);
+		return 1;
 	}
-	if(atk){
-		if(Attack(A,proj,scr))
-			atk = 0;
-	}
+
 	SDL_BlitSurface(sprite, NULL, scr, A);
+	return 0;
 }
